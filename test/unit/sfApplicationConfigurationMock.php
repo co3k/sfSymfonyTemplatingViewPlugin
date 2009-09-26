@@ -10,6 +10,8 @@
 
 class ApplicationConfigurationMock extends ProjectConfiguration
 {
+  static protected $loadedHelpers = array();
+
   public function getTemplateDir($moduleName, $templateFile)
   {
     return dirname(__FILE__).'/fixtures/'.$moduleName;
@@ -27,6 +29,27 @@ class ApplicationConfigurationMock extends ProjectConfiguration
 
   public function loadHelpers($helpers, $moduleName = '')
   {
+    $dir = sfConfig::get('sf_symfony_lib_dir').'/helper';
+    foreach ((array) $helpers as $helperName)
+    {
+      $fileName = $helperName.'Helper.php';
+
+      if (isset(self::$loadedHelpers[$helperName]))
+      {
+        continue;
+      }
+
+      if (is_readable($dir.'/'.$fileName))
+      {
+        include_once($dir.'/'.$fileName);
+      }
+      else
+      {
+        throw new InvalidArgumentException(sprintf('Unable to load "%sHelper.php" helper in: %s.', $helperName, implode(', ', $dirs)));
+      }
+
+      self::$loadedHelpers[$helperName] = true;
+    }
   }
 }
 

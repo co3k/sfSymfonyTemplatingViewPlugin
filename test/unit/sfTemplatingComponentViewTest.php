@@ -20,7 +20,7 @@ if (!function_exists('createContext'))
   {
     $context = sfContext::getInstance(array('request' => 'sfWebRequest', 'response' => 'sfWebResponse'), true);
     $context->configuration = new ApplicationConfigurationMock();
-    sfConfig::set('sf_standard_helpers', array());
+    sfConfig::set('sf_standard_helpers', array('Text'));
 
     return $context;
   }
@@ -78,3 +78,14 @@ $result = $view->render();
 
 $t->is('layout.php', $result, 'Rendering a valid template file');
 
+// --
+
+$t->diag('rendering view for the module/helper action that uses helper function');
+$context = createContext();
+$view = new sfTemplatingComponentView($context, 'module', 'helper', 'Success');
+$view->execute();
+
+$result = $view->render();
+$tplDir = $context->configuration->getTemplateDir('module', 'helper');
+
+$t->is('<a href="http://example.com/">http://example.com/</a>', $result, 'Rendering a valid template file');
