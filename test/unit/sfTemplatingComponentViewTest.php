@@ -52,6 +52,29 @@ $result = $view->render();
 $tplDir = $context->configuration->getTemplateDir('module', 'action');
 
 $t->ok(0 === strpos($result, $tplDir), 'Calculating template directory successfuly');
-$t->is('/actionSuccess.xml.php', str_replace($tplDir, '', $result), 'Rendering a valid template file');
+$t->is(str_replace($tplDir, '', $result), '/actionSuccess.xml.php', 'Rendering a valid template file');
 
+// --
+
+$t->diag('rendering view for the module/withLayout action that its view is extending other template');
+$context = createContext();
+$view = new sfTemplatingComponentView($context, 'module', 'withLayout', 'Success');
+$view->execute();
+
+$result = $view->render();
+
+$t->is('layout.php', $result, 'Rendering a valid template file');
+
+// --
+
+$t->diag('rendering view for the module/withLayout action as xml that its view is extending other template');
+$context = createContext();
+$context->getRequest()->setFormat('xml', 'application/xml');
+$context->getRequest()->setRequestFormat('xml');
+$view = new sfTemplatingComponentView($context, 'module', 'withLayout', 'Success');
+$view->execute();
+
+$result = $view->render();
+
+$t->is('layout.php', $result, 'Rendering a valid template file');
 
