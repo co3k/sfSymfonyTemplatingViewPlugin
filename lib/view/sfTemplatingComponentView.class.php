@@ -19,15 +19,7 @@ class sfTemplatingComponentView extends sfPHPView
    */
   public function execute()
   {
-    $decoratorDirs = $this->context->getConfiguration()->getDecoratorDirs();
-    foreach ($decoratorDirs as $k => $v)
-    {
-      $decoratorDirs[$k] = $v.'/%name%';
-    }
-
-    $templateDirs = array_merge(array($this->getDirectory().'/%name%'), $decoratorDirs);
-
-    $this->loader = new sfTemplateLoaderFilesystem($templateDirs);
+    $this->loader = new sfTemplateLoaderFilesystemForSymfony1($this, $this->context);
     $this->engine = new sfTemplateEngine($this->loader);
   }
 
