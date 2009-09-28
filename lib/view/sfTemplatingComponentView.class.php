@@ -19,7 +19,16 @@ class sfTemplatingComponentView extends sfPHPView
    */
   public function execute()
   {
-    $this->loader = new sfTemplateLoaderFilesystemForSymfony1($this, $this->context);
+    $loaders = sfConfig::get('app_sfSymfonyTemplatingViewPlugin_loader', array('default' => array(
+      'class' => 'sfTemplateLoaderFilesystemForSymfony1', 'storage' => 'sfTemplateStorageFile',
+    )));
+
+    $this->loader = new sfTemplateLoaderChain();
+    foreach ($loaders as $loader)
+    {
+      $this->loader->addLoader(new $loader['class']($this, $this->context, array('storage' => $loader['storage'])));
+    }
+
     $this->engine = new sfTemplateEngine($this->loader);
   }
 
