@@ -41,7 +41,7 @@ class sfTemplateStorage
    */
   public function __toString()
   {
-    return $this->template;
+    return (string) $this->template;
   }
 
   /**
@@ -52,5 +52,13 @@ class sfTemplateStorage
   public function getRenderer()
   {
     return $this->renderer;
+  }
+
+  /**
+   * Sets the renderer.
+   */
+  public function setRenderer($renderer = null)
+  {
+    $this->renderer = $renderer;
   }
 }
