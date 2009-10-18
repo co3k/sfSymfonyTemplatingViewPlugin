@@ -23,7 +23,7 @@ class sfTemplateLoaderFilesystemForSymfony1 extends sfTemplateAbstractLoader
     $this->templateDirs = array_merge(array($this->view->getDirectory().'/%name%'), $decoratorDirs);
   }
 
-  public function load($template, $renderer = 'php')
+  public function doLoad($template, $renderer = 'php')
   {
     foreach ($this->templateDirs as $dir)
     {
