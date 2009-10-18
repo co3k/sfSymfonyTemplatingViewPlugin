@@ -28,7 +28,7 @@ class sfTemplatingComponentView extends sfPHPView
     $defaultRule = array('php' => array(
       array('loader' => 'sfTemplateLoaderFilesystemForSymfony1', 'renderer' => 'php'),
     ));
-    $rules = array_merge(sfConfig::get('app_sfSymfonyTemplatingViewPlugin_rules', array()), $defaultRule);
+    $rules = array_merge($defaultRule, sfConfig::get('app_sfSymfonyTemplatingViewPlugin_rules', array()));
 
     $this->loader = new sfTemplateLoaderSwitcher($rules, $this, $this->context);
     $this->engine = new sfTemplateEngine($this->loader, $renderers);
