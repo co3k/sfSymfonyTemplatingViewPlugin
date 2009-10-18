@@ -8,26 +8,22 @@
  * file and the NOTICE file that were distributed with this source code.
  */
 
-class sfTemplateLoaderFilesystemForSymfony1 extends sfTemplateLoaderFilesystem
+class sfTemplateLoaderFilesystemForSymfony1 extends sfTemplateAbstractSwitchableLoader
 {
-  protected
-    $context = null,
-    $view = null,
-    $storage = null;
+  protected $templateDirs = array();
 
-  public function __construct(sfView $view, sfContext $context, array $configure = array())
+  public function configure()
   {
-    $this->context = $context;
-    $this->view = $view;
-
     $decoratorDirs = $this->context->getConfiguration()->getDecoratorDirs();
     foreach ($decoratorDirs as $k => $v)
     {
       $this->templateDirs[$k] = $v.'/%name%.%extension%';
     }
+
+    $this->templateDirs = array_merge(array($this->view->getDirectory().'/%name%'), $decoratorDirs);
   }
 
-  public function load($template, $renderer = 'php')
+  public function doLoad($template, $renderer = 'php')
   {
     $extension = $this->getParameter('extension', $this->view->getExtension());
     if ('.' === $extension[0])
@@ -46,7 +42,5 @@ class sfTemplateLoaderFilesystemForSymfony1 extends sfTemplateLoaderFilesystem
         return new sfTemplateStorageFile($file, $renderer);
       }
     }
-
-    return $result;
   }
 }
