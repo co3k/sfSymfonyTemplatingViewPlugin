@@ -8,34 +8,22 @@
  * file and the NOTICE file that were distributed with this source code.
  */
 
-class sfTemplateLoaderDoctrine extends sfTemplateLoader
+class sfTemplateLoaderDoctrine extends sfTemplateAbstractLoader
 {
-  protected
-    $context = null,
-    $view = null,
-    $storage = null;
-
-  public function __construct(sfView $view, sfContext $context, array $configure = array())
+  public function doLoad($template, $renderer = 'php')
   {
-    $this->context = $context;
-    $this->view = $view;
+    $model = $this->getParameter('model', 'Template');
+    $q = Doctrine::getTable($model)->createQuery()
+      ->where('name = ?', $template)
+      ->andWhere('renderer = ?', $renderer);
 
-    $this->storage = 'sfTemplateStorageFile';
-    if (isset($configure['storage']))
-    {
-      $this->storage = $configure['storage'];
-    }
-  }
-
-  public function load($template, $renderer = 'php')
-  {
-    $string = Doctrine::getTable('Template')->findOneByName($template);
+    $string = $q->fetchOne();
     if (!$string)
     {
       return $string;
     }
 
-    $result = new $this->storage((string)$string);
+    $result = new sfTemplateStorageString((string)$string);
 
     return $result;
   }
