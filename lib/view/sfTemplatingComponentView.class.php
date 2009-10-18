@@ -29,7 +29,13 @@ class sfTemplatingComponentView extends sfPHPView
       $this->loader->addLoader(new $loader['class']($this, $this->context, array('storage' => $loader['storage'])));
     }
 
-    $this->engine = new sfTemplateEngine($this->loader);
+    $defaultRule = array('php' => array(
+      array('loader' => 'sfTemplateLoaderFilesystemForSymfony1', 'renderer' => 'php'),
+    ));
+    $rules = array_merge($defaultRule, sfConfig::get('app_sfSymfonyTemplatingViewPlugin_rules', array()));
+
+    $this->loader = new sfTemplateLoaderSwitcher($rules, $this, $this->context);
+    $this->engine = new sfTemplateEngine($this->loader, $renderers);
   }
 
   /**
