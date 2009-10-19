@@ -40,7 +40,13 @@ abstract class sfTemplateAbstractLoader extends sfTemplateLoader
 
   final public function load($template, $renderer = 'php')
   {
-    return $this->doLoad($template, $renderer);
+    $result = $this->doLoad($template, $renderer);
+    if ($result)
+    {
+      return $result;
+    }
+
+    return false;
   }
 
   abstract public function doLoad($template, $renderer = 'php');

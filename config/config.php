@@ -10,3 +10,9 @@
 
 require_once dirname(__FILE__).'/../lib/vendor/SymfonyTemplating/sfTemplateAutoloader.php';
 sfTemplateAutoloader::register();
+
+set_include_path(get_include_path()
+.PATH_SEPARATOR.dirname(__FILE__).'/../lib/vendor/smarty2'
+.PATH_SEPARATOR.dirname(__FILE__).'/../lib/vendor/phptal'
+);
+

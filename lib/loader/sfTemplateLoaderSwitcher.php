@@ -48,8 +48,6 @@ class sfTemplateLoaderSwitcher extends sfTemplateLoader
       $_renderer = $loader->getParameter('renderer', 'php');
       if (false !== $content = $loader->load($template, $_renderer))
       {
-        $content->setRenderer($_renderer);
-
         return $content;
       }
     }
