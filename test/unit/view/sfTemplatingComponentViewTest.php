@@ -8,11 +8,11 @@
  * file and the NOTICE file that were distributed with this source code.
  */
 
-require_once(dirname(__FILE__).'/../bootstrap/config.php');
+require_once(dirname(__FILE__).'/../../bootstrap/config.php');
 
 require_once(sfConfig::get('sf_symfony_lib_dir').'/../test/unit/sfContextMock.class.php');
 require_once(sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php');
-require_once(dirname(__FILE__).'/sfApplicationConfigurationMock.php');
+require_once(dirname(__FILE__).'/../sfApplicationConfigurationMock.php');
 
 $t = new lime_test();
 
