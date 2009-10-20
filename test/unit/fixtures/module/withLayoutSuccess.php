@@ -1,1 +1,1 @@
-<?php $this->extend('layout.php') ?>
+<?php $this->extend('layout') ?>

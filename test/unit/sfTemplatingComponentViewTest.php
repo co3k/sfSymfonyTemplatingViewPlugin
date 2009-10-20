@@ -8,6 +8,8 @@
  * file and the NOTICE file that were distributed with this source code.
  */
 
+require_once(dirname(__FILE__).'/../bootstrap/config.php');
+
 require_once(sfConfig::get('sf_symfony_lib_dir').'/../test/unit/sfContextMock.class.php');
 require_once(sfConfig::get('sf_symfony_lib_dir').'/vendor/lime/lime.php');
 require_once(dirname(__FILE__).'/sfApplicationConfigurationMock.php');
@@ -37,7 +39,7 @@ $result = $view->render();
 $tplDir = $context->configuration->getTemplateDir('module', 'action');
 
 $t->ok(0 === strpos($result, $tplDir), 'Calculating template directory successfuly');
-$t->is('/actionSuccess.php', str_replace($tplDir, '', $result), 'Rendering a valid template file');
+$t->is(str_replace($tplDir, '', $result), '/actionSuccess.php', 'Rendering a valid template file');
 
 // --
 
@@ -52,7 +54,7 @@ $result = $view->render();
 $tplDir = $context->configuration->getTemplateDir('module', 'action');
 
 $t->ok(0 === strpos($result, $tplDir), 'Calculating template directory successfuly');
-$t->is(str_replace($tplDir, '', $result), '/actionSuccess.xml.php', 'Rendering a valid template file');
+$t->is('/actionSuccess.xml.php', str_replace($tplDir, '', $result), 'Rendering a valid template file');
 
 // --
 
@@ -63,7 +65,7 @@ $view->execute();
 
 $result = $view->render();
 
-$t->is('layout.php', $result, 'Rendering a valid template file');
+$t->is($result, 'layout.php', 'Rendering a valid template file');
 
 // --
 
@@ -76,7 +78,7 @@ $view->execute();
 
 $result = $view->render();
 
-$t->is('layout.php', $result, 'Rendering a valid template file');
+$t->is($result, 'layout.xml.php', 'Rendering a valid template file');
 
 // --
 
@@ -88,4 +90,4 @@ $view->execute();
 $result = $view->render();
 $tplDir = $context->configuration->getTemplateDir('module', 'helper');
 
-$t->is('<a href="http://example.com/">http://example.com/</a>', $result, 'Rendering a valid template file');
+$t->is($result, '<a href="http://example.com/">http://example.com/</a>', 'Rendering a valid template file');
