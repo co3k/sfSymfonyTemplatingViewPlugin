@@ -51,12 +51,7 @@ class sfTemplatingComponentView extends sfPHPView
    */
   public function configure()
   {
-    $this->setTemplate($this->actionName.$this->viewName.$this->getExtension());
-
-    if (!$this->directory)
-    {
-      $this->setDirectory($this->context->getConfiguration()->getTemplateDir($this->moduleName, $this->getTemplate()));
-    }
+    $this->setTemplate($this->actionName.$this->viewName);
   }
 
   /**

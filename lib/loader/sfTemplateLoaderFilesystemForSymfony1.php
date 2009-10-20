@@ -23,26 +23,28 @@ class sfTemplateLoaderFilesystemForSymfony1 extends sfTemplateLoaderFilesystem
     $decoratorDirs = $this->context->getConfiguration()->getDecoratorDirs();
     foreach ($decoratorDirs as $k => $v)
     {
-      $decoratorDirs[$k] = $v.'/%name%';
+      $this->templateDirs[$k] = $v.'/%name%.%extension%';
     }
-
-    $this->storage = 'sfTemplateStorageFile';
-    if (isset($configure['storage']))
-    {
-      $this->storage = $configure['storage'];
-    }
-
-    $templateDirs = array_merge(array($this->view->getDirectory().'/%name%'), $decoratorDirs);
-    parent::__construct($templateDirs);
   }
 
   public function load($template, $renderer = 'php')
   {
-    $result = parent::load($template, $renderer);
-
-    if (get_class($result) !== $this->storage)
+    $extension = $this->getParameter('extension', $this->view->getExtension());
+    if ('.' === $extension[0])
     {
-      $result = new $this->storage((string)$result);
+      $extension = substr($extension, 1);
+    }
+
+    $localDir = $this->context->getConfiguration()->getTemplateDir($this->view->getModuleName(), $template.'.'.$extension);
+    $this->view->setDirectory($localDir);
+
+    $templateDirs = array_merge($this->templateDirs, array($localDir.'/%name%.%extension%'));
+    foreach ($templateDirs as $dir)
+    {
+      if (is_file($file = strtr($dir, array('%name%' => $template, '%extension%' => $extension))))
+      {
+        return new sfTemplateStorageFile($file, $renderer);
+      }
     }
 
     return $result;
