@@ -31,10 +31,17 @@ class sfTemplateLoaderFilesystemForSymfony1 extends sfTemplateAbstractSwitchable
       $extension = substr($extension, 1);
     }
 
-    $localDir = $this->context->getConfiguration()->getTemplateDir($this->view->getModuleName(), $template.'.'.$extension);
+    if ('global' === $this->view->getModuleName())
+    {
+      $localDir = $this->context->getConfiguration()->getDecoratorDir($template.'.'.$extension);
+    }
+    else
+    {
+      $localDir = $this->context->getConfiguration()->getTemplateDir($this->view->getModuleName(), $template.'.'.$extension);
+    }
     $this->view->setDirectory($localDir);
 
-    $templateDirs = array_merge($this->templateDirs, array($localDir.'/%name%.%extension%'));
+    $templateDirs = array_merge(array($localDir.'/%name%.%extension%'), $this->templateDirs);
     foreach ($templateDirs as $dir)
     {
       if (is_file($file = strtr($dir, array('%name%' => $template, '%extension%' => $extension))))
