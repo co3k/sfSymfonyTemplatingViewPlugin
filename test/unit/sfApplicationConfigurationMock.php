@@ -27,6 +27,17 @@ class ApplicationConfigurationMock extends ProjectConfiguration
     return array(dirname(__FILE__).'/fixtures/template');
   }
 
+  public function getDecoratorDir($template)
+  {
+    foreach ($this->getDecoratorDirs() as $dir)
+    {
+      if (is_readable($dir.'/'.$template))
+      {
+        return $dir;
+      }
+    }
+  }
+
   public function loadHelpers($helpers, $moduleName = '')
   {
     $dir = sfConfig::get('sf_symfony_lib_dir').'/helper';

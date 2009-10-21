@@ -28,6 +28,8 @@ if (!function_exists('createContext'))
   }
 }
 
+sfConfig::set('app_sfSymfonyTemplatingViewPlugin_renderers', array('php' => 'sfTemplateRendererPhp'));
+
 // --
 
 $t->diag('rendering view for the module/action action');
