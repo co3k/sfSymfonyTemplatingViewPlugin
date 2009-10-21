@@ -19,18 +19,14 @@ class sfTemplatingComponentView extends sfPHPView
    */
   public function execute()
   {
-    $loaders = sfConfig::get('app_sfSymfonyTemplatingViewPlugin_loader', array('default' => array(
-      'class' => 'sfTemplateLoaderFilesystemForSymfony1', 'storage' => 'sfTemplateStorageFile',
-    )));
-
-    $this->loader = new sfTemplateLoaderChain();
-    foreach ($loaders as $loader)
+    $renderers = array();
+    foreach (sfConfig::get('app_sfSymfonyTemplatingViewPlugin_renderers', array()) as $k => $v)
     {
-      $this->loader->addLoader(new $loader['class']($this, $this->context, array('storage' => $loader['storage'])));
+      $renderers[$k] = new $v();
     }
 
     $defaultRule = array('php' => array(
-      array('loader' => 'sfTemplateLoaderFilesystemForSymfony1', 'renderer' => 'php'),
+      array('loader' => 'sfTemplateSwitchableLoaderFilesystemForSymfony1', 'renderer' => 'php'),
     ));
     $rules = array_merge($defaultRule, sfConfig::get('app_sfSymfonyTemplatingViewPlugin_rules', array()));
 
