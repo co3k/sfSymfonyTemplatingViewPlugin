@@ -29,7 +29,7 @@ if (!function_exists('createContext'))
     return $context;
   }
 
-  class myLoader extends sfTemplateLoaderFilesystemForSymfony1
+  class myLoader extends sfTemplateSwitchableLoaderFilesystemForSymfony1
   {
     public function getTemplateDirs()
     {

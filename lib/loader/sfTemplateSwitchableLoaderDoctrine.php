@@ -8,7 +8,7 @@
  * file and the NOTICE file that were distributed with this source code.
  */
 
-class sfTemplateLoaderDoctrine extends sfTemplateAbstractSwitchableLoader
+class sfTemplateSwitchableLoaderDoctrine extends sfTemplateAbstractSwitchableLoader
 {
   public function doLoad($template, $renderer = 'php')
   {

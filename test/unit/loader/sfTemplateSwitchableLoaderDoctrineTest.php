@@ -107,7 +107,7 @@ $record = new myTemplate();
 
 $context = createContext();
 $view = new sfTemplatingComponentView($context, 'module', 'action', '');
-$loader = new sfTemplateLoaderDoctrine($view, $context, array('model' => 'myTemplate'));
+$loader = new sfTemplateSwitchableLoaderDoctrine($view, $context, array('model' => 'myTemplate'));
 
 $t->diag('->load()');
 $t->is((string)$loader->load('exist'), 'exist', '->load() returns template body if the specified template is found');
