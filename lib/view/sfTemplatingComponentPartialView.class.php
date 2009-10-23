@@ -20,7 +20,8 @@ class sfTemplatingComponentPartialView extends sfPartialView
   public function execute()
   {
     $renderers = array();
-    foreach (sfConfig::get('app_sfSymfonyTemplatingViewPlugin_renderers', array()) as $k => $v)
+    $rendererConfig = $this->getAttribute('renderer_config', sfConfig::get('app_sfSymfonyTemplatingViewPlugin_renderers', array()));
+    foreach ($rendererConfig as $k => $v)
     {
       $renderers[$k] = new $v();
     }
@@ -28,7 +29,8 @@ class sfTemplatingComponentPartialView extends sfPartialView
     $defaultRule = array('php' => array(
       array('loader' => 'sfTemplateSwitchableLoaderFilesystemForSymfony1', 'renderer' => 'php'),
     ));
-    $rules = array_merge($defaultRule, sfConfig::get('app_sfSymfonyTemplatingViewPlugin_rules', array()));
+    $ruleConfig = $this->getAttribute('rule_config', sfConfig::get('app_sfSymfonyTemplatingViewPlugin_rules', array()));
+    $rules = array_merge($defaultRule, $ruleConfig);
 
     $this->loader = new sfTemplateLoaderSwitcher($rules, $this, $this->context);
     $this->engine = new sfTemplateEngine($this->loader, $renderers);
