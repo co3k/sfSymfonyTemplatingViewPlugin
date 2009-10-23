@@ -114,3 +114,5 @@ $t->is((string)$loader->load('exist'), 'exist', '->load() returns template body 
 $t->is($adapter->pop(), 'SELECT m.id AS m__id, m.name AS m__name, m.body AS m__body, m.renderer AS m__renderer FROM my_template m WHERE (m.name = ? AND m.renderer = ?)', '->load() executes valid sql');
 $t->is((string)$loader->load('unknown'), '', '->load() returns empty string if the unknown template is specified');
 $t->is($adapter->pop(), 'SELECT m.id AS m__id, m.name AS m__name, m.body AS m__body, m.renderer AS m__renderer FROM my_template m WHERE (m.name = ? AND m.renderer = ?)', '->load() executes valid sql');
+$t->is($loader->load('exist', 'original')->getRenderer(), 'original', '->load() returns template that has specified renderer');
+

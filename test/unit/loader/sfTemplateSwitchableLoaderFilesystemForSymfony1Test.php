@@ -61,3 +61,5 @@ $t->is($loader->load('unknownSuccess'), false, '->doLoad() returns false if the 
 $t->is($loaderWithWrongExt->load('actionSuccess'), false, '->doLoad() returns false if the specified local template is exists but its extension is wrong');
 
 $t->is((string)$globalLoader->load('layout'), $fixtureDir.'/template/layout.php', '->doLoad() loads the specified global template');
+
+$t->is($loader->load('actionSuccess', 'original')->getRenderer(), 'original', '->load() returns template that has specified renderer');

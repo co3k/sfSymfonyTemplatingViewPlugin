@@ -23,7 +23,7 @@ class sfTemplateSwitchableLoaderDoctrine extends sfTemplateAbstractSwitchableLoa
       return $string;
     }
 
-    $result = new sfTemplateStorageString((string)$string);
+    $result = new sfTemplateStorageString((string)$string, $renderer);
 
     return $result;
   }
