@@ -18,9 +18,9 @@ class sfTemplateSwitchableLoaderDoctrine extends sfTemplateAbstractSwitchableLoa
       ->andWhere('renderer = ?', $renderer);
 
     $string = $q->fetchOne();
-    if (!$string)
+    if (!(string)$string)
     {
-      return $string;
+      return false;
     }
 
     $result = new sfTemplateStorageString((string)$string, $renderer);

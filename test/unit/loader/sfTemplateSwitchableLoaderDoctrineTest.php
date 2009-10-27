@@ -82,6 +82,18 @@ if (!function_exists('createContext'))
 
         return $tpl;
       }
+      elseif ('empty' === $_p['where'][0])
+      {
+        $tpl = new myTemplate();
+        $tpl->fromArray(array(
+          'id'       => 1,
+          'name'     => '',
+          'body'     => '',
+          'renderer' => 'php',
+        ));
+
+        return $tpl;
+      }
 
       return $result;
     }
@@ -112,7 +124,8 @@ $loader = new sfTemplateSwitchableLoaderDoctrine($view, $context, array('model' 
 $t->diag('->load()');
 $t->is((string)$loader->load('exist'), 'exist', '->load() returns template body if the specified template is found');
 $t->is($adapter->pop(), 'SELECT m.id AS m__id, m.name AS m__name, m.body AS m__body, m.renderer AS m__renderer FROM my_template m WHERE (m.name = ? AND m.renderer = ?)', '->load() executes valid sql');
-$t->is((string)$loader->load('unknown'), '', '->load() returns empty string if the unknown template is specified');
+$t->cmp_ok($loader->load('unknown'), '===', false, '->load() returns empty string if the unknown template is specified');
 $t->is($adapter->pop(), 'SELECT m.id AS m__id, m.name AS m__name, m.body AS m__body, m.renderer AS m__renderer FROM my_template m WHERE (m.name = ? AND m.renderer = ?)', '->load() executes valid sql');
 $t->is($loader->load('exist', 'original')->getRenderer(), 'original', '->load() returns template that has specified renderer');
+$t->cmp_ok($loader->load('empty'), '===', false, '->load() returns false if the specified template is empty string');
 
